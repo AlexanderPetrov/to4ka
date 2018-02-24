@@ -1,0 +1,12 @@
+com\to4ka\entities\UsersEntity.class
+com\to4ka\entities\MobileTokensEntity.class
+com\to4ka\util\HibernateUtil.class
+com\to4ka\entities\PricesEntity.class
+com\to4ka\controllers\CategoriesController.class
+com\to4ka\entities\TasksEntity.class
+com\to4ka\entities\CategoriesEntity.class
+com\to4ka\entities\SalesEntity.class
+com\to4ka\managers\CategoriesManager.class
+Main.class
+com\to4ka\entities\ProductsEntity.class
+Application.class
