@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.to4ka.entities">
+
+    <class name="com.to4ka.entities.SalesEntity" table="sales" schema="to4ka">
+        <id name="id" column="ID"/>
+        <property name="count" column="COUNT"/>
+        <property name="saleDate" column="SALE_DATE"/>
+        <property name="summ" column="SUMM"/>
+        <property name="price" column="PRICE"/>
+        <many-to-one name="productsByProductId" class="com.to4ka.entities.ProductsEntity">
+            <column name="PRODUCT_ID"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

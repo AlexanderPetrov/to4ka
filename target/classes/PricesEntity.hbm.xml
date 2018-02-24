@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping  package="com.to4ka.entities">
+
+    <class name="com.to4ka.entities.PricesEntity" table="prices" schema="to4ka">
+        <id name="id" column="ID"/>
+        <property name="price" column="PRICE"/>
+        <property name="onDate" column="ON_DATE"/>
+    </class>
+</hibernate-mapping>

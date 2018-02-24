@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost/to4ka</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password"></property>
+
+        <!-- JDBC connection pool (use the built-in) -->
+        <property name="connection.pool_size">1</property>
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">true</property>
+        <!-- Drop and re-create the database schema on startup -->
+
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="current_session_context_class">thread</property>
+        <property name="hbm2ddl.auto">update</property>
+
+        <!--<mapping resource="CategoriesEntity.hbm.xml"/>-->
+        <!--<mapping resource="MobileTokensEntity.hbm.xml"/>-->
+        <!--<mapping resource="PricesEntity.hbm.xml"/>-->
+        <!--<mapping resource="ProductsEntity.hbm.xml"/>-->
+        <!--<mapping resource="SalesEntity.hbm.xml"/>-->
+        <!--<mapping resource="TasksEntity.hbm.xml"/>-->
+        <!--<mapping resource="UsersEntity.hbm.xml"/>-->
+
+        <mapping class="com.to4ka.entities.CategoriesEntity"/>
+        <mapping class="com.to4ka.entities.MobileTokensEntity"/>
+        <mapping class="com.to4ka.entities.PricesEntity"/>
+        <mapping class="com.to4ka.entities.ProductsEntity"/>
+        <mapping class="com.to4ka.entities.SalesEntity"/>
+        <mapping class="com.to4ka.entities.TasksEntity"/>
+        <mapping class="com.to4ka.entities.UsersEntity"/>
+    </session-factory>
+</hibernate-configuration>

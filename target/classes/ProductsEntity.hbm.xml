@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping  package="com.to4ka.entities">
+
+    <class name="com.to4ka.entities.ProductsEntity" table="products" schema="to4ka">
+        <id name="id" column="ID"/>
+        <property name="name" column="NAME"/>
+        <property name="currentCount" column="CURRENT_COUNT"/>
+        <property name="notificationCount" column="NOTIFICATION_COUNT"/>
+        <property name="description" column="DESCRIPTION"/>
+        <property name="image" column="IMAGE"/>
+        <property name="currentPriceId" column="CURRENT_PRICE_ID"/>
+        <many-to-one name="categoriesByCategoryId" class="com.to4ka.entities.CategoriesEntity">
+            <column name="CATEGORY_ID"/>
+        </many-to-one>
+
+        <set name="sales">
+            <key column="PRODUCT_ID" not-null="true"/>
+            <one-to-many class="com.to4ka.entities.SalesEntity"/>
+        </set>
+
+        <set name="prices">
+            <key column="PRODUCT_ID" not-null="true"/>
+            <one-to-many class="com.to4ka.entities.PricesEntity"/>
+        </set>
+    </class>
+</hibernate-mapping>

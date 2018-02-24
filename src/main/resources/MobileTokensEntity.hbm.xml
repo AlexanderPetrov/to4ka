@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping  package="com.to4ka.entities">
+
+    <class name="com.to4ka.entities.MobileTokensEntity" table="mobile_tokens" schema="to4ka">
+        <id name="id" column="ID">
+            <generator class="increment"/>
+        </id>
+        <property name="token" column="TOKEN" type="java.lang.String"/>
+        <property name="deviceId" column="DEVICE_ID" type="java.lang.Integer"/>
+    </class>
+</hibernate-mapping>
