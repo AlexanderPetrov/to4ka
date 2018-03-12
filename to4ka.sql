@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 24, 2018 at 04:27 PM
+-- Generation Time: Mar 08, 2018 at 08:34 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `to4ka`
 --
-CREATE DATABASE IF NOT EXISTS `to4ka` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_roman_ci;
+CREATE DATABASE IF NOT EXISTS `to4ka` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 USE `to4ka`;
 
 -- --------------------------------------------------------
@@ -31,18 +31,12 @@ USE `to4ka`;
 --
 
 DROP TABLE IF EXISTS `categories`;
-CREATE TABLE IF NOT EXISTS `categories` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `NAME` text COLLATE utf8mb4_roman_ci NOT NULL,
-  `PARENT_ID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_roman_ci;
+CREATE TABLE `categories` (
+  `ID` int(11) NOT NULL,
+  `NAME` text CHARACTER SET cp1251 COLLATE cp1251_bin NOT NULL,
+  `PARENT_ID` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Truncate table before insert `categories`
---
-
-TRUNCATE TABLE `categories`;
 --
 -- Dumping data for table `categories`
 --
@@ -59,21 +53,13 @@ INSERT INTO `categories` (`ID`, `NAME`, `PARENT_ID`) VALUES
 --
 
 DROP TABLE IF EXISTS `mobile_tokens`;
-CREATE TABLE IF NOT EXISTS `mobile_tokens` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `mobile_tokens` (
+  `ID` int(11) NOT NULL,
   `USER_ID` int(11) NOT NULL,
-  `TOKEN` text COLLATE utf8mb4_roman_ci NOT NULL,
-  `DEVICE_ID` int(11) NOT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `UK_cp7n1bd328njug3fn9590m30b` (`ID`),
-  KEY `mobile_tokens_ibfk_1` (`USER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_roman_ci;
+  `TOKEN` text CHARACTER SET cp1251 COLLATE cp1251_bin NOT NULL,
+  `DEVICE_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Truncate table before insert `mobile_tokens`
---
-
-TRUNCATE TABLE `mobile_tokens`;
 -- --------------------------------------------------------
 
 --
@@ -81,21 +67,13 @@ TRUNCATE TABLE `mobile_tokens`;
 --
 
 DROP TABLE IF EXISTS `prices`;
-CREATE TABLE IF NOT EXISTS `prices` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `prices` (
+  `ID` int(11) NOT NULL,
   `PRODUCT_ID` int(11) NOT NULL,
   `PRICE` float NOT NULL,
-  `ON_DATE` datetime NOT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `UK_jfgae00y7nytoh7ih11n52jee` (`ID`),
-  KEY `prices_ibfk_1` (`PRODUCT_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_roman_ci;
+  `ON_DATE` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Truncate table before insert `prices`
---
-
-TRUNCATE TABLE `prices`;
 -- --------------------------------------------------------
 
 --
@@ -103,25 +81,17 @@ TRUNCATE TABLE `prices`;
 --
 
 DROP TABLE IF EXISTS `products`;
-CREATE TABLE IF NOT EXISTS `products` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `NAME` text COLLATE utf8mb4_roman_ci NOT NULL,
+CREATE TABLE `products` (
+  `ID` int(11) NOT NULL,
+  `NAME` text CHARACTER SET cp1251 COLLATE cp1251_bin NOT NULL,
   `CURRENT_COUNT` int(11) DEFAULT NULL,
   `NOTIFICATION_COUNT` int(11) DEFAULT NULL,
-  `DESCRIPTION` text COLLATE utf8mb4_roman_ci,
+  `DESCRIPTION` text CHARACTER SET cp1251 COLLATE cp1251_bin,
   `CATEGORY_ID` int(11) DEFAULT NULL,
-  `IMAGE` text COLLATE utf8mb4_roman_ci,
-  `CURRENT_PRICE_ID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `UK_38cdqoaf39eu3mubej9y1kr8i` (`ID`),
-  KEY `products_ibfk_1` (`CATEGORY_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_roman_ci;
+  `IMAGE` text COLLATE utf8_bin,
+  `CURRENT_PRICE_ID` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Truncate table before insert `products`
---
-
-TRUNCATE TABLE `products`;
 -- --------------------------------------------------------
 
 --
@@ -129,27 +99,17 @@ TRUNCATE TABLE `products`;
 --
 
 DROP TABLE IF EXISTS `sales`;
-CREATE TABLE IF NOT EXISTS `sales` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `sales` (
+  `ID` int(11) NOT NULL,
   `PRODUCT_ID` int(11) NOT NULL,
   `COUNT` int(11) NOT NULL,
   `SALE_DATE` datetime NOT NULL,
   `SUMM` float NOT NULL,
   `PRICE` float NOT NULL,
   `USER_ID` int(11) NOT NULL,
-  `productsByProductId_ID` int(11) NOT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `UK_qe6uwevnj0hkxxy6gxscsk5yr` (`ID`),
-  KEY `sales_ibfk_1` (`PRODUCT_ID`),
-  KEY `sales_ibfk_2` (`USER_ID`),
-  KEY `FKir23hrdivkowhj9l4gmy642on` (`productsByProductId_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_roman_ci;
+  `productsByProductId_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Truncate table before insert `sales`
---
-
-TRUNCATE TABLE `sales`;
 -- --------------------------------------------------------
 
 --
@@ -157,23 +117,15 @@ TRUNCATE TABLE `sales`;
 --
 
 DROP TABLE IF EXISTS `tasks`;
-CREATE TABLE IF NOT EXISTS `tasks` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `DESCRIPTION` text COLLATE utf8mb4_roman_ci NOT NULL,
+CREATE TABLE `tasks` (
+  `ID` int(11) NOT NULL,
+  `DESCRIPTION` text CHARACTER SET cp1251 COLLATE cp1251_bin NOT NULL,
   `DUE_DATE` datetime NOT NULL,
   `NOTIF_BEFORE_MINUTES` int(11) NOT NULL,
   `USER_ID` int(11) NOT NULL,
-  `FINISHED` tinyint(1) NOT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `UK_sjqc932v436nhauloo41yisbx` (`ID`),
-  KEY `tasks_ibfk_1` (`USER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_roman_ci;
+  `FINISHED` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Truncate table before insert `tasks`
---
-
-TRUNCATE TABLE `tasks`;
 -- --------------------------------------------------------
 
 --
@@ -181,22 +133,120 @@ TRUNCATE TABLE `tasks`;
 --
 
 DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `FIO` text COLLATE utf8mb4_roman_ci NOT NULL,
-  `USERNAME` text COLLATE utf8mb4_roman_ci NOT NULL,
-  `PASSWORD` text COLLATE utf8mb4_roman_ci NOT NULL,
-  `PHONE` text COLLATE utf8mb4_roman_ci NOT NULL,
-  `COMMENT` text COLLATE utf8mb4_roman_ci NOT NULL,
-  `IS_VOVA` tinyint(1) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_roman_ci;
+CREATE TABLE `users` (
+  `ID` int(11) NOT NULL,
+  `FIO` text CHARACTER SET cp1251 COLLATE cp1251_bin NOT NULL,
+  `USERNAME` text COLLATE utf8_bin NOT NULL,
+  `PASSWORD` text COLLATE utf8_bin NOT NULL,
+  `PHONE` text CHARACTER SET cp1251 COLLATE cp1251_bin NOT NULL,
+  `COMMENT` text CHARACTER SET cp1251 COLLATE cp1251_bin NOT NULL,
+  `IS_VOVA` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Truncate table before insert `users`
+-- Indexes for dumped tables
 --
 
-TRUNCATE TABLE `users`;
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `mobile_tokens`
+--
+ALTER TABLE `mobile_tokens`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `UK_cp7n1bd328njug3fn9590m30b` (`ID`),
+  ADD KEY `mobile_tokens_ibfk_1` (`USER_ID`);
+
+--
+-- Indexes for table `prices`
+--
+ALTER TABLE `prices`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `UK_jfgae00y7nytoh7ih11n52jee` (`ID`),
+  ADD KEY `prices_ibfk_1` (`PRODUCT_ID`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `UK_38cdqoaf39eu3mubej9y1kr8i` (`ID`),
+  ADD KEY `products_ibfk_1` (`CATEGORY_ID`);
+
+--
+-- Indexes for table `sales`
+--
+ALTER TABLE `sales`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `UK_qe6uwevnj0hkxxy6gxscsk5yr` (`ID`),
+  ADD KEY `sales_ibfk_1` (`PRODUCT_ID`),
+  ADD KEY `sales_ibfk_2` (`USER_ID`),
+  ADD KEY `FKir23hrdivkowhj9l4gmy642on` (`productsByProductId_ID`);
+
+--
+-- Indexes for table `tasks`
+--
+ALTER TABLE `tasks`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `UK_sjqc932v436nhauloo41yisbx` (`ID`),
+  ADD KEY `tasks_ibfk_1` (`USER_ID`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `mobile_tokens`
+--
+ALTER TABLE `mobile_tokens`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `prices`
+--
+ALTER TABLE `prices`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `sales`
+--
+ALTER TABLE `sales`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tasks`
+--
+ALTER TABLE `tasks`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- Constraints for dumped tables
 --
