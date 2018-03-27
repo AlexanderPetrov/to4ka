@@ -1,5 +1,8 @@
 package com.to4ka.entities;
 
+import com.to4ka.auxiliary.EntityJSONInterface;
+import org.json.JSONObject;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +12,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "users", schema = "to4ka", catalog = "")
-public class UsersEntity {
+public class UsersEntity implements EntityJSONInterface{
     private int id;
     private String fio;
     private String username;
@@ -156,5 +159,18 @@ public class UsersEntity {
         result = 31 * result + (comment != null? comment.hashCode() : 0);
         result = 31 * result + (int) isVova;
         return result;
+    }
+
+    @Override
+    public JSONObject toJSONObject() {
+        JSONObject userJson = new JSONObject();
+
+        userJson.put("id", getId());
+        userJson.put("fio", getFio());
+        userJson.put("username", getUsername());
+        userJson.put("phone", getPhone());
+        userJson.put("is_vova", getIsVova());
+
+        return userJson;
     }
 }

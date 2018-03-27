@@ -1,33 +1,28 @@
 package com.to4ka.managers;
 
 import com.to4ka.entities.CategoriesEntity;
-import com.to4ka.util.HibernateUtil;
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import com.to4ka.entities.ProductsEntity;
+import com.to4ka.util.HibernateRepo;
 
 /**
  * Created by User on 2/24/2018.
  */
 public class ProductsManager {
 
-    public static Boolean createNewProduct(String name, Integer categoryId, String description){
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction transaction = session.beginTransaction();
+    private final HibernateRepo<ProductsEntity> repository;
 
-        try{
+    public ProductsManager(){
+        repository = new HibernateRepo<ProductsEntity>();
+    }
 
-        }catch (Throwable ex){
-            System.err.println("Transaction failed. Rollback.");
-            transaction.rollback();
-            return false;
-        }
+    public void createNewProduct(String name, Integer categoryId, String description) throws Exception {
+        CategoriesEntity category = new CategoriesEntity();
+        category.setId(categoryId);
 
-        return true;
+        ProductsEntity product = new ProductsEntity();
+        product.setName(name);
+        product.setCategory(category);
+        product.setDescription(description);
+        repository.save(product);
     }
 }

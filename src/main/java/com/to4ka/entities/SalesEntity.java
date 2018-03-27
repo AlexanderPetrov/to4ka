@@ -1,5 +1,8 @@
 package com.to4ka.entities;
 
+import com.to4ka.auxiliary.EntityJSONInterface;
+import org.json.JSONObject;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -8,13 +11,14 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "sales", schema = "to4ka", catalog = "")
-public class SalesEntity {
+public class SalesEntity implements EntityJSONInterface{
     private int id;
     private int count;
     private Timestamp saleDate;
     private double summ;
     private double price;
-    private ProductsEntity productsByProductId;
+    private UsersEntity user;
+    private ProductsEntity product;
 
     @Id
     @Column(name = "ID")
@@ -98,11 +102,36 @@ public class SalesEntity {
 
     @ManyToOne
     @JoinColumn(insertable = false, updatable = false, referencedColumnName = "ID", nullable = false)
-    public ProductsEntity getProductsByProductId() {
-        return productsByProductId;
+    public ProductsEntity getProduct() {
+        return product;
     }
 
-    public void setProductsByProductId(ProductsEntity productsByProductId) {
-        this.productsByProductId = productsByProductId;
+    public void setProduct(ProductsEntity product) {
+        this.product = product;
+    }
+
+    @ManyToOne
+    @JoinColumn(insertable = false, updatable = false, referencedColumnName = "ID", nullable = false)
+    public UsersEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UsersEntity user) {
+        this.user = user;
+    }
+
+    @Override
+    public JSONObject toJSONObject() {
+        JSONObject saleJson = new JSONObject();
+
+        saleJson.put("id", getId());
+        saleJson.put("product_id", getProduct().getId());
+        saleJson.put("count", getCount());
+        saleJson.put("summ", getSumm());
+        saleJson.put("sale_date", getSaleDate());
+        saleJson.put("price", getPrice());
+        saleJson.put("user_id", getUser().getId());
+
+        return saleJson;
     }
 }

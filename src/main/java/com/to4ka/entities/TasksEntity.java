@@ -1,5 +1,8 @@
 package com.to4ka.entities;
 
+import com.to4ka.auxiliary.EntityJSONInterface;
+import org.json.JSONObject;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -8,12 +11,13 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "tasks", schema = "to4ka", catalog = "")
-public class TasksEntity {
+public class TasksEntity implements EntityJSONInterface {
     private int id;
     private String description;
     private Timestamp dueDate;
     private int notifBeforeMinutes;
     private byte finished;
+    private int userId;
 
     @Id
     @Column(name = "ID")
@@ -23,6 +27,15 @@ public class TasksEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Column(name = "USER_ID")
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     @Basic
@@ -89,5 +102,19 @@ public class TasksEntity {
         result = 31 * result + notifBeforeMinutes;
         result = 31 * result + (int) finished;
         return result;
+    }
+
+    @Override
+    public JSONObject toJSONObject() {
+        JSONObject taskJson = new JSONObject();
+
+        taskJson.put("id", getId());
+        taskJson.put("description", getDescription());
+        taskJson.put("due_date", getDueDate());
+        taskJson.put("notif_before_minutes", getNotifBeforeMinutes());
+        taskJson.put("user_id", getUserId());
+        taskJson.put("finished", getFinished());
+
+        return taskJson;
     }
 }

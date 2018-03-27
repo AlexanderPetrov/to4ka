@@ -10,7 +10,7 @@
         <property name="saleDate" column="SALE_DATE"/>
         <property name="summ" column="SUMM"/>
         <property name="price" column="PRICE"/>
-        <many-to-one name="productsByProductId" class="com.to4ka.entities.ProductsEntity">
+        <many-to-one name="product" class="com.to4ka.entities.ProductsEntity">
             <column name="PRODUCT_ID"/>
         </many-to-one>
     </class>

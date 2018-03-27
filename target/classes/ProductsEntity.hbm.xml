@@ -12,7 +12,7 @@
         <property name="description" column="DESCRIPTION"/>
         <property name="image" column="IMAGE"/>
         <property name="currentPriceId" column="CURRENT_PRICE_ID"/>
-        <many-to-one name="categoriesByCategoryId" class="com.to4ka.entities.CategoriesEntity">
+        <many-to-one name="category" class="com.to4ka.entities.CategoriesEntity">
             <column name="CATEGORY_ID"/>
         </many-to-one>
 

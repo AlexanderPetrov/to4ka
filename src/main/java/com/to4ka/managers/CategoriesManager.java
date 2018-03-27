@@ -1,73 +1,80 @@
 package com.to4ka.managers;
 
 import com.to4ka.entities.CategoriesEntity;
-import com.to4ka.util.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
+import com.to4ka.exceptions.To4kaException;
+import com.to4ka.util.HibernateRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by User on 2/18/2018.
  */
 public class CategoriesManager {
 
-    public static CategoriesEntity createNewCategory(String name, Integer parentId){
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
+    private Logger log = LoggerFactory.getLogger(CategoriesManager.class);
 
+    private HibernateRepo<CategoriesEntity> repository;
+
+    public CategoriesManager(){
+        repository = new HibernateRepo<CategoriesEntity>();
+    }
+
+    public void createNewCategory(String name, Integer parentId) throws To4kaException {
+        log.trace("Create category with name [%s] and parent id [%d]", name, parentId != null ? parentId : "null");
         CategoriesEntity category = new CategoriesEntity();
         category.setName(name);
-        if(parentId != null)
-            category.setParentId(parentId);
-
-        session.save(category);
-
-        session.getTransaction().commit();
-        return category;
-    }
-
-    public static Set<CategoriesEntity> getAllCategories() {
-
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        List<CategoriesEntity> result = (List<CategoriesEntity>)session.createQuery("from CategoriesEntity").list();
-        session.getTransaction().commit();
-
-        return new HashSet<CategoriesEntity>(result);
-    }
-
-    public static CategoriesEntity getCategoryById(Integer id) {
-
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        CategoriesEntity result = (CategoriesEntity)session.createQuery(
-                String.format("from CategoriesEntity where id like '%s'", id)).getSingleResult();
-        session.getTransaction().commit();
-
-        return result;
-    }
-
-    public static Boolean removeCategoryById(Integer id) throws Throwable {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction transaction = session.beginTransaction();
-        try{
-            String hql = "delete from CategoriesEntity where id = :id";
-            Query query = session.createQuery(hql);
-            query.setParameter("id", id);
-            System.out.println(query.executeUpdate());
-
-            transaction.commit();
+        category.setParentId(parentId);
+        try {
+            repository.save(category);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new To4kaException("Failed to create category");
         }
-        catch(Throwable ex){
-            System.err.println("Transaction failed. Rollback.");
-            transaction.rollback();
-            return false;
-        }
+    }
 
-        return true;
+    public void createNewCategories(CategoriesEntity[] ctaegories) throws To4kaException {
+        log.trace("Create new categories");
+        try {
+            repository.save(ctaegories);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new To4kaException("Failed to create category");
+        }
+    }
+
+    public Collection<CategoriesEntity> getAllCategories() throws To4kaException {
+        log.trace("Get all categories");
+        String queryStr = "from CategoriesEntity";
+        try {
+            return repository.select(queryStr);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new To4kaException("Failed to get categories.", e);
+        }
+    }
+
+    public CategoriesEntity getCategoryById(Integer id) throws To4kaException {
+        log.trace("Get category with id [%d]", id);
+        String queryStr = String.format("from CategoriesEntity where id=%d", id);
+        try {
+            return repository.selectOne(queryStr);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new To4kaException("Failed to get category.", e);
+        }
+    }
+
+    public void removeCategoryById(Integer id) throws To4kaException {
+        log.trace("Remove category with id [%d]", id);
+        String queryStr = String.format("delete from CategoriesEntity where id=%d", id);
+        try {
+            repository.executeQuery(queryStr);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new To4kaException("Failed to remove category");
+        }
     }
 }

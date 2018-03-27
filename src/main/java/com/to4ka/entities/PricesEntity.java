@@ -1,14 +1,18 @@
 package com.to4ka.entities;
 
+import com.to4ka.auxiliary.EntityJSONInterface;
+import org.json.JSONObject;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by User on 2/8/2018.
  */
 @Entity
 @Table(name = "prices", schema = "to4ka", catalog = "")
-public class PricesEntity {
+public class PricesEntity implements EntityJSONInterface {
     private int id;
     private double price;
     private Timestamp onDate;
@@ -66,5 +70,19 @@ public class PricesEntity {
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (onDate != null ? onDate.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public JSONObject toJSONObject() {
+        JSONObject json = new JSONObject();
+        json.put("id", id);
+        json.put("name", price);
+        json.put("on_date", onDate);
+        return json;
+
+//        String jsonString = String.format("{\"id\": %d, \"price\":%f, \"on_date\": \"%d \"}",
+//                id, price, new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(onDate));
+//
+//        return jsonString;
     }
 }

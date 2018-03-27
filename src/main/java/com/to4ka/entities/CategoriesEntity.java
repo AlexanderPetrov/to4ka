@@ -1,6 +1,8 @@
 package com.to4ka.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.to4ka.auxiliary.EntityJSONInterface;
+import org.json.JSONObject;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -11,25 +13,25 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "categories", schema = "to4ka", catalog = "")
-public class CategoriesEntity {
-    private int id;
+public class CategoriesEntity implements EntityJSONInterface {
+    private Integer id;
     private String name;
     private Integer parentId;
 
-    @JsonIgnore
-    private Set<ProductsEntity> products;
+    private transient Set<ProductsEntity> products;
 
     public CategoriesEntity() {
         products = new HashSet<ProductsEntity>();
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -62,10 +64,22 @@ public class CategoriesEntity {
         return this.products;
     }
 
+    @JsonIgnore
     public void setProducts(Set<ProductsEntity> products){
         this.products = products;
     }
 
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder("Category(");
+        builder.append(id != null ? String.format("id=%d ",id):"");
+        builder.append(name != null ? String.format("name=%s ",name):"");
+        builder.append(parentId != null ? String.format("parentId=%d ",parentId):"");
+        builder.append(")");
+
+        return builder.toString();
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -88,5 +102,18 @@ public class CategoriesEntity {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (parentId != null ? parentId.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public JSONObject toJSONObject() {
+        JSONObject json = new JSONObject();
+        json.put("id", id);
+        json.put("name", name);
+        json.put("parent_id", parentId);
+
+        return json;
+
+//        String jsonString = String.format("{\"id\":%d, \"name\":\"%s\", \"parent_id\":%d}", id, name, parentId);
+//        return jsonString;
     }
 }

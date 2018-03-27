@@ -8,10 +8,13 @@
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="connection.url">jdbc:mysql://localhost/to4ka</property>
         <property name="connection.username">root</property>
-        <property name="connection.password"></property>
+        <property name="connection.password">p@ssword1</property>
+        <property name="hibernate.connection.useUnicode">true</property>
+        <property name="hibernate.connection.characterEncoding">UTF-8</property>
+        <property name="hibernate.connection.charSet">UTF-8</property>
 
         <!-- JDBC connection pool (use the built-in) -->
-        <property name="connection.pool_size">1</property>
+        <!--<property name="connection.pool_size">1</property>-->
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
         <!-- Drop and re-create the database schema on startup -->

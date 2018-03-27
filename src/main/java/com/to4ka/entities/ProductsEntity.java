@@ -1,5 +1,8 @@
 package com.to4ka.entities;
 
+import com.to4ka.auxiliary.EntityJSONInterface;
+import org.json.JSONObject;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +12,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "products", schema = "to4ka", catalog = "")
-public class ProductsEntity {
+public class ProductsEntity implements EntityJSONInterface{
     private int id;
     private String name;
     private int currentCount;
@@ -17,7 +20,7 @@ public class ProductsEntity {
     private String description;
     private String image;
     private int currentPriceId;
-    private CategoriesEntity categoriesByCategoryId;
+    private CategoriesEntity category;
 
 
     private Set<SalesEntity> sales = new HashSet<SalesEntity>();
@@ -149,11 +152,30 @@ public class ProductsEntity {
 
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID", insertable = false, updatable = false, referencedColumnName = "ID", nullable = false)
-    public CategoriesEntity getCategoriesByCategoryId() {
-        return categoriesByCategoryId;
+    public CategoriesEntity getCategory() {
+        return category;
     }
 
-    public void setCategoriesByCategoryId(CategoriesEntity categoriesByCategoryId) {
-        this.categoriesByCategoryId = categoriesByCategoryId;
+    public void setCategory(CategoriesEntity categoriy) {
+        this.category = categoriy;
+    }
+
+    @Override
+    public JSONObject toJSONObject() {
+
+//        String jsonString = String.format("{\"id\":%d, \"name\":\"%s\", \"category_id\":%d, \"current_price_id\":%d, \"\":%d,}",
+//                id,name,category.getId(), currentPriceId, );
+        JSONObject json = new JSONObject();
+
+        json.put("id", getId());
+        json.put("name", getName());
+        json.put("category_id", getCategory().getId());
+        json.put("current_price_id", getCurrentPriceId());
+        json.put("current_count", getCurrentCount());
+        json.put("notification_count", getNotificationCount());
+        json.put("description", getDescription());
+        json.put("image", getImage());
+
+        return json;
     }
 }
